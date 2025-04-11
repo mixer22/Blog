@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" width="1000">
+    {% endif %}
+    <p><small>Дата публикации: {{ post.created_at }}</small></p>
+
+    <h2>Комментарии</h2>
+    {% for comment in comments %}
+        <p><strong>{{ comment.author }}:</strong> {{ comment.content }}</p>
+    {% empty %}
+        <p>Пока нет комментариев.</p>
+    {% endfor %}
+
+    <h3>Оставить комментарий</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+
+    <a href="{% url 'post_list' %}">← Назад к списку постов</a>
+</body>
+</html>
